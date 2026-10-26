@@ -26,19 +26,19 @@ DeepSeek Harness（`@deepseek-ai/dsh`）插件：给会话权限菜单增加一�
 
 ## 安装
 
-已安装到 `~/.dsh/profiles/web`。等价的手工步骤：
+安装步骤（本机用符号链接，不联网、不新增下载）：
 
-1. 让 profile 能找到包（本机用符号链接，避免联网安装）：
+1. 让 profile 能找到包（本机用符号链接安装，避免联网）：
 
    ```sh
-   ln -sfn /home/nxneym/projects/custom-approval ~/.dsh/profiles/web/node_modules/dsh-help-me-approve
+   ln -sfn "$PWD" ~/.dsh/profiles/web/node_modules/dsh-help-me-approve   # 在仓库根目录执行
    ```
 
 2. `~/.dsh/profiles/web/package.json`：
 
    ```json
    {
-     "dependencies": { "dsh-help-me-approve": "file:/home/nxneym/projects/custom-approval" },
+     "dependencies": { "dsh-help-me-approve": "file:/绝对路径/到本仓库" },
      "dsh": { "profile": { "bundles": ["...", "dsh-help-me-approve"] } }
    }
    ```
@@ -118,14 +118,15 @@ $DSH_HOME/help-me-approve/audit.jsonl      # 默认 ~/.dsh/help-me-approve/audit
   `providers[<id>].models[]`；提取不到时只能手工填 id。
 - **同模型不代表同视角**：默认跟随会话模型时，审核代理与执行代理同一个模型、不同上下文；
   需要更强独立性时请在设置里指定另一个模型。
-- 本机环境下 profile 里另有 11 个第三方插件因找不到 `@deepseek-ai/dsh-*` 而加载失败，
-  与本插件无关（安装前后数量一致，已做对照启动验证）。
+- 若 profile 里其他插件启动时报找不到 `@deepseek-ai/dsh-*`，那是该 profile 的 `node_modules`
+  解析问题，与本插件无关：本插件运行期只 import `@deepseek-ai/schemastery`，其余宿主能力
+  全部走 `ctx.get()`（这样被 pnpm 以符号链接安装时也不会解析失败）。
 
 ## 开发
 
 ```sh
-cd /home/nxneym/projects/custom-approval
-node --test                 # 53 个用例：决策协议、激活判定、证据裁剪、fail-closed、应答器、审计、设置页
+cd /绝对路径/到本仓库
+node --test                 # 55 个用例：决策协议、激活判定、证据裁剪、fail-closed、应答器、审计、设置页
 ```
 
 （Node 24 不接受 `node --test test/` 这种目录参数，`node --test` 会自动发现 `test/` 下的文件。）
