@@ -1,0 +1,10 @@
+# dsh-help-me-approve bundle patch: mount the “帮我批准” approval reviewer.
+# `name` resolves through the profile's node_modules.
+#
+# The permission preset itself is NOT declared here: a profile's own
+# cordis.patch.yml overrides the whole `permission` row (a patch replaces the
+# targeted row's entire config), so the `help-me-approve` preset must live in
+# that row. See README.md「安装」.
+- insert:
+    - id: help-me-approve
+      name: dsh-help-me-approve

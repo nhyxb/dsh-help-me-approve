@@ -1,0 +1,13 @@
+# 本机安装用的符号链接目标（指向 profile 里已装的 schemastery），不入库
+node_modules/
+
+# AI 协作/记忆文件，属于本地工作约定，不进公开仓库
+AGENTS.md
+MEMORY.md
+
+# 会话工具产生的临时目录
+.pi/
+
+# 杂项
+*.log
+.DS_Store
